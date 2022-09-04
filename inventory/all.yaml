@@ -6,6 +6,9 @@ all:
     cn1:
       ansible_host: 192.168.123.31
       ansible_user: root
+    cn2:
+      ansible_host: 192.168.123.32
+      ansible_user: root
   children:
     ondemand_server:
       hosts:
@@ -13,3 +16,4 @@ all:
     ondemand_vnc_host:
       hosts:
         cn1:
+        cn2:
