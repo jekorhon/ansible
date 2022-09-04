@@ -28,3 +28,7 @@
   pip:
     name: websockify
     state: present
+- name: Install singularity container environment
+  dnf:
+    name: singularity
+    state: present
