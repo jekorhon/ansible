@@ -28,9 +28,10 @@
   pip:
     name: websockify
     state: present
-- name: Install singularity container environment
+- name: Install Apptainer/Singularity container environment
   dnf:
-    name: singularity
+    name: https://github.com/apptainer/apptainer/releases/download/v1.0.3/apptainer-1.0.3-1.x86_64.rpm
+    disable_gpg_check: yes
     state: present
 - name: Check if ubi8.sif is available
   stat:
