@@ -32,3 +32,11 @@
   dnf:
     name: singularity
     state: present
+- name: Check if ubi8.sif is available
+  stat:
+    path: /opt/ubi8.sif
+  register: ubi8_image
+- name: Build ubi8 singularity image
+  shell:
+    cmd: singularity pull /opt/ubi8.sif docker://redhat/ubi8
+  when: not ubi8_image.stat.exists
