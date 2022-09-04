@@ -8,6 +8,3 @@ Currently working on with ondemand\_server.yml and ondemand\_vnc\_client.yml
 
 ## Author
 Jesse Korhonen
-
-## License
-TBD
