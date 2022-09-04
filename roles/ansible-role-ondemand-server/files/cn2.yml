@@ -1,0 +1,31 @@
+---
+v2:
+  metadata:
+    title: "Compute node 2"
+    hidden: true
+  login:
+    host: "cn2"
+    default: true
+  job:
+    adapter: "linux_host"
+    submit_host: "cn2"
+    ssh_hosts:
+      - cn2
+    site_timeout: 7200
+    debug: true
+    singularity_bin: /usr/bin/singularity
+    singularity_bindpath: /etc,/media,/mnt,/opt,/run,/srv,/usr,/var
+    singularity_image: /opt/ubi8.sif
+    strict_host_checking: false
+    tmux_bin: /usr/bin/tmux
+  batch_connect:
+    basic:
+      script_wrapper: |
+        %s
+    vnc:
+      script_wrapper: |
+        module purge
+        export PATH="/opt/TurboVNC/bin:$PATH"
+        export WEBSOCKIFY_CMD="/usr/local/bin/websockify"
+        %s
+

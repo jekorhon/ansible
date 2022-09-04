@@ -1,0 +1,15 @@
+all:
+  hosts:
+    ondemand:
+      ansible_host: 192.168.123.30
+      ansible_user: root
+    cn1:
+      ansible_host: 192.168.123.31
+      ansible_user: root
+  children:
+    ondemand_server:
+      hosts:
+        ondemand:
+    ondemand_vnc_host:
+      hosts:
+        cn1:

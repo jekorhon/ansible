@@ -1,0 +1,4 @@
+- name: Configure OnDemand VNC hosts
+  hosts: ondemand_vnc_host
+  roles:
+    - ansible-role-ondemand-vnc-host

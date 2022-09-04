@@ -1,0 +1,5 @@
+---
+- name: Configure OnDemand server
+  hosts: ondemand_server
+  roles:
+    - ansible-role-ondemand-server

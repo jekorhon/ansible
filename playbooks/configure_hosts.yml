@@ -1,0 +1,10 @@
+- name: Configure /etc/hosts file
+  hosts: all
+  tasks:
+    - name: Copy /etc/hosts to all servers
+      copy:
+        src: ../files/hosts
+        dest: /etc/hosts
+        owner: root
+        group: root
+        mode: '0644'

@@ -1,0 +1,30 @@
+- name: Enable epel-repository
+  dnf:
+    name: epel-release
+    state: present
+- name: Install required packages
+  dnf:
+    name:
+      - nmap-ncat
+      - perl
+      - tmux
+    state: present
+- name: Install xfce desktop environment
+  dnf:
+    name: "@xfce"
+    state: present
+- name: Install TurboVNC repository
+  copy:
+    src: TurboVNC.repo
+    dest: /etc/yum.repos.d/TurboVNC.repo
+    owner: root
+    group: root
+    mode: '0644'
+- name: Install TurboVNC
+  dnf:
+    name: turbovnc
+    state: present
+- name: Install websockify
+  pip:
+    name: websockify
+    state: present

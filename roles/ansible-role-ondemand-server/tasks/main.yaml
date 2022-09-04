@@ -1,0 +1,109 @@
+---
+- name: Enable PowerTools repository
+  ini_file:
+    path: /etc/yum.repos.d/Rocky-PowerTools.repo
+    section: powertools
+    option: enabled
+    value: 1
+- name: Select dnf modules
+  shell:
+    cmd: dnf module enable -y ruby:2.7 nodejs:12
+- name: Install Epel repository
+  dnf:
+    name: epel-release
+    state: present
+- name: Install OnDemand repository
+  dnf:
+    name: https://yum.osc.edu/ondemand/2.0/ondemand-release-web-2.0-1.noarch.rpm
+    disable_gpg_check: yes
+    state: present
+- name: Install OnDemand environment
+  dnf:
+    name: 
+      - ondemand
+      - ondemand-selinux
+    state: present
+- name: Configure selinux
+  seboolean:
+    name: httpd_mod_auth_pam
+    state: yes
+    persistent: yes
+- name: Configure selinux
+  seboolean:
+    name: ondemand_manage_user_home_dir
+    state: yes
+    persistent: yes
+- name: Install Apache PAM module
+  dnf:
+    name: mod_authnz_pam
+    state: present
+- name: Enable Apache PAM module
+  copy:
+    content: 'LoadModule authnz_pam_module modules/mod_authnz_pam.so'
+    dest: /etc/httpd/conf.modules.d/55-authnz_pam.conf
+- name: Create ood PAM service
+  copy:
+    src: ood.pam
+    dest: /etc/pam.d/ood
+    owner: root
+    group: root
+    mode: '0644'
+- name: Copy ood_portal.yml configuration to server
+  copy:
+    src: ood_portal.yml
+    dest: /etc/ood/config/ood_portal.yml
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - Generate portal
+    - Restart apache
+- name: Enable and start apache
+  systemd:
+    name: httpd.service
+    state: started
+    enabled: yes
+    masked: no
+
+- name: Create clusters.d direcotry
+  file:
+    path: /etc/ood/config/clusters.d/
+    state: directory
+    mode: '0755'
+    owner: root
+    group: root
+- name: Copy cluster configuration
+  copy:
+    src: cn1.yml
+    dest: /etc/ood/config/clusters.d/cn1.yml
+    owner: root
+    group: root
+    mode: '0644'
+- name: Copy cn2 configuration
+  copy:
+    src: cn2.yml
+    dest: /etc/ood/config/clusters.d/cn2.yml
+    owner: root
+    group: root
+    mode: '0644'
+- name: Create apps direcotry
+  file:
+    path: /etc/ood/config/apps
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+- name: Create bc_desktop direcotry
+  file:
+    path: /etc/ood/config/apps/bc_desktop
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+- name: Copy vdi.yml settings
+  copy:
+    src: vdi.yml
+    dest: /etc/ood/config/apps/bc_desktop/vdi.yml
+    owner: root
+    group: root
+    mode: '0644'

@@ -1,0 +1,9 @@
+---
+- name: Restart apache
+  service:
+    name: httpd
+    state: restarted
+- name: Generate portal
+  shell:
+    cmd: /opt/ood/ood-portal-generator/sbin/update_ood_portal
+

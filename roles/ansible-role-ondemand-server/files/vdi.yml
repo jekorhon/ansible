@@ -1,0 +1,21 @@
+---
+title: "Computing VDI"
+description: |
+  This app will launch an interactive desktop in one of Computing
+  servers. 
+form:
+  - cluster
+  - desktop
+  - bc_num_hours
+attributes:
+  desktop: "xfce"
+  bc_num_hours:
+    value: 10
+  cluster:
+    label: "Computing server"
+    help: |
+      Select computing server which you want to connect.
+    widget: select
+    options:
+      - ["Server 1", "cn1"]
+      - ["Server 2", "cn2"]
